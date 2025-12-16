@@ -1,70 +1,117 @@
-# Diabetes Classification Project
+# 🩺 Diabetes Classification using Machine Learning
 
-This project focuses on building and evaluating a machine learning model for diabetes classification using the dataset provided in the `Diabetes_Classification.ipynb` notebook.
+This project focuses on building a **binary classification system** to predict whether a patient has diabetes or not using **machine learning models**, while properly handling **imbalanced data** and deploying the final model using **Streamlit**.
+
+---
 
 ## 📌 Project Overview
 
-The goal of this project is to:
+- **Problem Type:** Binary Classification  
+- **Target Variable:** Diabetes (0 = No, 1 = Yes)  
+- **Main Challenges:**
+  - Imbalanced dataset
+  - Model selection & comparison
+  - Proper preprocessing
+  - Deployment
 
-* Explore and preprocess a medical dataset related to diabetes.
-* Build a classification model to predict whether a patient has diabetes.
-* Evaluate the model using various performance metrics.
+---
 
-## 📂 Repository Contents
+## 🧠 Machine Learning Pipeline
 
-* **Diabetes_Classification.ipynb**: The main Jupyter Notebook containing data analysis, visualizations, model training, and evaluation.
-* **README.md**: Project documentation (this file).
+The project follows a clean and modular ML pipeline:
 
-## 🧪 Machine Learning Workflow
+### 1️⃣ Data Preprocessing
+- Data cleaning using `FunctionTransformer`
+- Handling missing values using `SimpleImputer`
+- Feature scaling with `RobustScaler`
+- Feature transformation using `PowerTransformer`
 
-The notebook covers the following steps:
+### 2️⃣ Handling Imbalanced Data
+To solve class imbalance, **SMOTE-based techniques** were applied:
+- `SMOTE`
+- `SMOTETomek`
 
-1. **Data Loading & Cleaning**
-2. **Exploratory Data Analysis (EDA)**
-3. **Model Selection**
-4. **Training & Testing**
-5. **Model Evaluation** using metrics such as accuracy, precision, recall, F1-score, and confusion matrix.
+These techniques were applied **only on the training data** to avoid data leakage.
 
-## 🛠️ Technologies Used
+---
 
-* Python
-* Jupyter Notebook
-* Pandas
-* NumPy
-* Scikit-learn
-* Matplotlib / Seaborn
+## 🤖 Models Used
 
-## ▶️ How to Run the Project
+The following models were trained and compared:
 
-1. Install required libraries:
+- Logistic Regression
+- K-Nearest Neighbors (KNN)
+- Decision Tree
+- Random Forest
+- Support Vector Machine (SVM)
+- Naive Bayes (Gaussian)
+- XGBoost
 
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Open the notebook:
+Each model was evaluated using multiple metrics.
 
-   ```bash
-   jupyter notebook Diabetes_Classification.ipynb
-   ```
+---
 
-## 📊 Results
+## 📊 Evaluation Metrics
 
-The notebook includes:
+Because the dataset is imbalanced, accuracy alone is not enough.  
+The following metrics were used:
 
-* Visualizations of the dataset
-* Performance comparison of models
-* Final chosen model based on best evaluation metrics
+- Accuracy (Train & Test)
+- Precision
+- Recall
+- F1-score
+- ROC-AUC
 
-## 📈 Future Improvements
+The **F1-score** was the primary metric for model selection.
 
-* Hyperparameter tuning (GridSearchCV / RandomizedSearchCV)
-* Use more advanced algorithms (XGBoost, Random Forest, etc.)
-* Deploy the model using Flask or FastAPI
+---
 
-## 👤 Author
+## 🔍 Hyperparameter Tuning
 
-Mena Hisham Elghaysha
+- **Technique:** GridSearchCV  
+- **Cross Validation:** 5-Fold  
+- **Scoring Metric:** F1-score  
 
-## 📜 License
+Random Forest hyperparameters tuned include:
+- `n_estimators`
+- `max_depth`
+- `min_samples_split`
+- `min_samples_leaf`
+- `max_features`
 
-This project is for educational purposes. Feel free to modify and expand it.
+---
+
+## 🏆 Best Model
+
+- **Model:** Random Forest Classifier  
+- **Why?**
+  - Best balance between precision & recall
+  - High F1-score
+  - Stable performance after SMOTE
+
+---
+
+## 💾 Model Persistence
+
+The trained artifacts were saved using `pickle`:
+
+- `rf_model.pkl` → trained model
+- `preprocessor.pkl` → preprocessing pipeline
+
+This allows:
+- Reusing the model without retraining
+- Easy deployment
+
+---
+
+## 🌐 Streamlit Deployment
+
+A simple and interactive **Streamlit web app** was created where users can:
+- Input patient medical data
+- Get real-time diabetes prediction
+- View prediction confidence
+
+### ▶️ Run the App Locally
+
+```bash
+streamlit run app.py
